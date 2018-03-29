@@ -20,14 +20,13 @@ namespace L3.Labet.WebApiCrm.Security
 
         public override Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-            var dynamics365Provider = new Dynamics365AuthProvider();
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
 
-            if(dynamics365Provider.ValidateUser(context.UserName, context.Password))
+            if(WebApiApplication.Dynamics365AuthHelper.ValidateUserAndCacheService(context.UserName, context.Password))
             {
                 identity.AddClaim(new Claim("username", context.UserName));
                 identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
-                identity.AddClaim(new Claim(ClaimTypes.Role, dynamics365Provider.GetUserRole(context.UserName)));
+                identity.AddClaim(new Claim(ClaimTypes.Role, ""));
 
                 context.Validated(identity);
             }

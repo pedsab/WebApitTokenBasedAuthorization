@@ -15,6 +15,8 @@ namespace L3.Labet.WebApiCrm
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
+        public static Security.Dynamics365AuthHelper Dynamics365AuthHelper = new Security.Dynamics365AuthHelper();
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
